@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.bhd.sdk"
+    android:versionCode="1"
+    android:versionName="1.0" >
+	<uses-permission android:name="android.permission.BLUETOOTH" />
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="21" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name="org.bhd.sdk.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 蓝牙状态变化监听器 -->
+        <receiver
+            android:name="org.bhd.sdk.BluetoothStateReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+            </intent-filter>            
+        </receiver>
+        <!-- 蓝牙可发现模式变化监听器 -->
+        <receiver
+            android:name="org.bhd.sdk.BluetoothScanModeReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.bluetooth.adapter.extra.PREVIOUS_SCAN_MODE" />
+            </intent-filter>            
+        </receiver>
+       
+    </application>
+
+</manifest>

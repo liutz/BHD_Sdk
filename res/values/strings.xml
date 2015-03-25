@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BHD_SDK</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="org_bhd_devices_discovery">开启设备被发现</string>
+    <string name="org_bhd_discovery">设备发现</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
