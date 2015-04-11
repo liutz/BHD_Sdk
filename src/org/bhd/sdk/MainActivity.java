@@ -23,8 +23,10 @@ public class MainActivity extends Activity {
 	private static final int REQUEST_ENABLE_BT_ACTION = 1;
 	/** 请求设备被发现 **/
 	private static final int REQUEST_DISCOVERY_ACTION = 2;
+	/** 设备发现表 **/
 	private List<String> mArrayAdapter;
-	
+	/** 蓝牙适配器 **/
+	private BluetoothAdapter mBluetoothAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,14 @@ public class MainActivity extends Activity {
 			mArrayAdapter = new ArrayList<String>(devicesSize);
 		    // 循环配对设备
 		    for (BluetoothDevice device : pairedDevices) {
+		    	String deviceName = device.getName();
+		    	String address = device.getAddress();
 		    	// 添加名字和Mac地址到数组中
-		        mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+		        mArrayAdapter.add(deviceName + "\n" + address);
+		        Log.i(TAG,"Init [ArrayAdapter add device name:"+deviceName+" address:"+address+"]");
 		    }
+		    Log.i(TAG,"Init Array Adapter size:"+devicesSize);
+		    
 		}
 		
 		// 注册设备发现，将发现设备添加到数组中
@@ -96,14 +103,15 @@ public class MainActivity extends Activity {
 	        // 监听器发现到一个设备时
 	        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 
-	            // Get the BluetoothDevice object from the Intent
-
+	        	// 从Intent获取BluetoothDevice对象
 	            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 	            BluetoothClass clazz = intent.getParcelableExtra(BluetoothDevice.EXTRA_CLASS);
 	            
-	            // Add the name and address to an array adapter to show in a ListView
-
-	            mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+	            // 添加设备名称和地址到适配器数组中
+	            String deviceName = device.getName();
+		    	String address = device.getAddress();
+	            mArrayAdapter.add(deviceName + "\n" + address);
+	            Log.i(TAG,"Device found receiver:"+"device name:"+deviceName+" address:"+address+"]");
 
 	        }
 
@@ -113,7 +121,13 @@ public class MainActivity extends Activity {
 	
 	/** 设备发现 **/
 	public void startDiscovery(View view){
-		//1.cancelDiscovery()
+		// 设备发现是异步操作
+		if(mBluetoothAdapter != null){
+			if(!mBluetoothAdapter.isDiscovering()){
+				mBluetoothAdapter.startDiscovery();
+				Log.i(TAG,"Discovery Started");
+			}
+		}
 		
 	}
 	
